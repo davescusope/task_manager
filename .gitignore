@@ -13,4 +13,5 @@ __pycache__/
 # Archivos de configuración de VSCode
 .vscode/
 # Archivos de sistema
-Thumbs.db 
+Thumbs.db
+connection/connection.txt 
