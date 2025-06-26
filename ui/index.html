@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Tareas con IA</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Gestor de Tareas</h1>
+        <div id="mainMenu" class="main-menu">
+            <button onclick="showSection('crudSection')">Gestión clásica de tareas</button>
+            <button onclick="showSection('iaSection')">Acciones de IA sobre tareas</button>
+            <button onclick="showSection('userStoriesSection')">Gestión avanzada de historias de usuario</button>
+        </div>
+        <div id="crudSection" style="display:none;">
+            <h2>Gestión clásica de tareas</h2>
+            <div class="crud-actions">
+                <div class="crud-action">
+                    <h4>Crear Tarea</h4>
+                    <form id="createTaskForm" onsubmit="createTask(event)">
+                        <div class="form-group">
+                            <label for="createTitle">Título:</label>
+                            <input type="text" id="createTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="createDescription">Descripción:</label>
+                            <textarea id="createDescription" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="createPriority">Prioridad:</label>
+                            <select id="createPriority" required>
+                                <option value="alta">Alta</option>
+                                <option value="media">Media</option>
+                                <option value="baja">Baja</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="createEffortHours">Esfuerzo (horas):</label>
+                            <input type="number" id="createEffortHours" required min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="createStatus">Estado:</label>
+                            <select id="createStatus" required>
+                                <option value="pendiente">Pendiente</option>
+                                <option value="en progreso">En Progreso</option>
+                                <option value="completada">Completada</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="createAssignedTo">Asignado a:</label>
+                            <input type="text" id="createAssignedTo" required>
+                        </div>
+                        <button type="submit">Crear Tarea</button>
+                        <div id="createResult" class="message-box"></div>
+                    </form>
+                </div>
+                <div class="crud-action">
+                    <h4>Modificar Tarea</h4>
+                    <form id="updateTaskForm" onsubmit="updateTask(event)">
+                        <div class="form-group">
+                            <label for="updateTaskId">ID de la Tarea:</label>
+                            <input type="number" id="updateTaskId" required min="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="updateTitle">Título:</label>
+                            <input type="text" id="updateTitle">
+                        </div>
+                        <div class="form-group">
+                            <label for="updateDescription">Descripción:</label>
+                            <textarea id="updateDescription"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="updatePriority">Prioridad:</label>
+                            <select id="updatePriority">
+                                <option value="">Seleccionar...</option>
+                                <option value="alta">Alta</option>
+                                <option value="media">Media</option>
+                                <option value="baja">Baja</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateEffortHours">Esfuerzo (horas):</label>
+                            <input type="number" id="updateEffortHours" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="updateStatus">Estado:</label>
+                            <select id="updateStatus">
+                                <option value="">Seleccionar...</option>
+                                <option value="pendiente">Pendiente</option>
+                                <option value="en progreso">En Progreso</option>
+                                <option value="completada">Completada</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateAssignedTo">Asignado a:</label>
+                            <input type="text" id="updateAssignedTo">
+                        </div>
+                        <div class="form-group">
+                            <label for="updateUserStoryId">ID de Historia de Usuario (opcional):</label>
+                            <input type="number" id="updateUserStoryId" min="1">
+                        </div>
+                        <button type="submit">Actualizar Tarea</button>
+                        <div id="updateResult" class="message-box"></div>
+                    </form>
+                </div>
+                <div class="crud-action">
+                    <h4>Eliminar Tarea</h4>
+                    <div class="form-group">
+                        <label for="deleteTaskId">ID de la Tarea:</label>
+                        <input type="number" id="deleteTaskId" min="1">
+                    </div>
+                    <button onclick="deleteTask()">Eliminar Tarea</button>
+                    <div id="deleteResult" class="message-box"></div>
+                </div>
+                <div class="crud-action">
+                    <h4>Ver Tareas</h4>
+                    <div class="form-group">
+                        <label for="viewTaskId">ID de la Tarea (opcional):</label>
+                        <input type="number" id="viewTaskId" min="1">
+                    </div>
+                    <button onclick="loadTasks()">Cargar Tareas</button>
+                    <div id="taskList"></div>
+                </div>
+            </div>
+            <button onclick="showSection('mainMenu')">Volver al menú principal</button>
+        </div>
+        <div id="iaSection" style="display:none;">
+            <h2>Acciones de IA sobre tareas</h2>
+            <div class="ai-actions">
+                <div class="ai-action">
+                    <h4>Describir Tarea</h4>
+                    <input type="number" id="describeTaskId" placeholder="ID de la tarea" min="1">
+                    <button onclick="describeTask()">Generar Descripción</button>
+                    <div id="describeResult" class="message-box"></div>
+                </div>
+                <div class="ai-action">
+                    <h4>Categorizar Tarea</h4>
+                    <input type="number" id="categorizeTaskId" placeholder="ID de la tarea" min="1">
+                    <button onclick="categorizeTask()">Categorizar</button>
+                    <div id="categorizeResult" class="message-box"></div>
+                </div>
+                <div class="ai-action">
+                    <h4>Estimar Esfuerzo</h4>
+                    <input type="number" id="estimateTaskId" placeholder="ID de la tarea" min="1">
+                    <button onclick="estimateTask()">Estimar</button>
+                    <div id="estimateResult" class="message-box"></div>
+                </div>
+                <div class="ai-action">
+                    <h4>Auditar Tarea</h4>
+                    <input type="number" id="auditTaskId" placeholder="ID de la tarea" min="1">
+                    <button onclick="auditTask()">Auditar</button>
+                    <div id="auditResult" class="message-box"></div>
+                </div>
+            </div>
+            <button onclick="showSection('mainMenu')">Volver al menú principal</button>
+        </div>
+        <div id="userStoriesSection" style="display:none;">
+            <h2>Gestión avanzada de historias de usuario</h2>
+            <div class="user-stories-section section">
+                <div class="us-row">
+                    <div class="us-block">
+                        <h4>Consultar Historia de Usuario por ID</h4>
+                        <div class="form-group">
+                            <label for="consultUserStoryId">ID de la historia (opcional):</label>
+                            <input type="number" id="consultUserStoryId" min="1">
+                        </div>
+                        <button type="button" onclick="consultUserStoryById()">Consultar Historia(s)</button>
+                        <div id="consultUserStoryResult" class="message-box"></div>
+                    </div>
+                    <div class="us-block">
+                        <h4>Crear Historia de Usuario con IA</h4>
+                        <form id="createUserStoryForm" onsubmit="createUserStory(event)">
+                            <div class="form-group">
+                                <label for="userStoryPrompt">Prompt para la historia de usuario:</label>
+                                <textarea id="userStoryPrompt" required></textarea>
+                            </div>
+                            <button type="submit">Generar Historia de Usuario</button>
+                            <div id="createUserStoryResult" class="message-box"></div>
+                        </form>
+                    </div>
+                    <div class="us-block">
+                        <h4>Generar Tareas para Historia de Usuario</h4>
+                        <div class="form-group">
+                            <label for="generateTasksUserStoryId">ID de la historia:</label>
+                            <input type="number" id="generateTasksUserStoryId" min="1">
+                        </div>
+                        <button type="button" onclick="generateTasksById()">Generar Tareas</button>
+                        <div id="generateTasksResult" class="message-box"></div>
+                    </div>
+                    <div class="us-block">
+                        <h4>Consultar Tareas de Historia de Usuario</h4>
+                        <div class="form-group">
+                            <label for="tasksUserStoryId">ID de la historia:</label>
+                            <input type="number" id="tasksUserStoryId" min="1">
+                        </div>
+                        <button type="button" onclick="consultTasksForUserStory()">Ver Tareas</button>
+                        <div id="tasksByIdResult" class="message-box"></div>
+                    </div>
+                </div>
+                <div id="userStoryTasksSection" style="display:none;">
+                    <h4>Tareas de la Historia de Usuario</h4>
+                    <div id="userStoryTasksList"></div>
+                    <button id="closeTasksBtn" type="button">Cerrar</button>
+                </div>
+            </div>
+            <button onclick="showSection('mainMenu')">Volver al menú principal</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 

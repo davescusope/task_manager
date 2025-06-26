@@ -1,0 +1,11 @@
+API_KEY = "4vq19kK8leEbOsLAV2dlRc5zr9AVurFWQL5mDHqPVQwY9lBjTf3uJQQJ99BEACfhMk5XJ3w3AAAAACOG0XnQ"
+API_BASE = "https://david-mbaqxkpr-swedencentral.cognitiveservices.azure.com/"
+API_VERSION = "2024-12-01-preview"
+MODEL_NAME = "gpt-4o"
+
+# Datos de conexión a la base de datos Azure MySQL
+DB_USER = "admindevmysql"
+DB_PASSWORD = "Ke0Ta4Sa7Ca3Xob9"
+DB_HOST = "mysqlfask.mysql.database.azure.com"
+DB_PORT = "3306"
+DB_NAME = "flask_db"
