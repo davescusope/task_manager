@@ -2,7 +2,7 @@
 // Funciones para crear, modificar, eliminar y ver tareas independientes
 
 // Configuración de la API
-const API_BASE_URL = '';
+const API_BASE_URL = 'http://localhost:5000';
 
 // Utilidad para mostrar mensajes
 function showMessage(elementId, message, isError = false) {
