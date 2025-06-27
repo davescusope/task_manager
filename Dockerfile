@@ -17,6 +17,7 @@ EXPOSE 5000
 # Variable de entorno para Flask
 ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
+ENV PYTHONPATH="${PYTHONPATH}:/app"
 
 # Comando para lanzar la app
-CMD ["flask", "run"] 
+CMD ["flask", "run", "--app", "task_manager.app"] 
