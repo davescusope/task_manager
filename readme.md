@@ -220,6 +220,6 @@ Este proyecto es una aplicación en Python que permite gestionar tareas de maner
 
 ## Nota sobre despliegue en Docker
 
-La variable de entorno `FLASK_APP` debe ser `app` (no `task_manager.app`) porque el archivo principal está en la raíz del proyecto. El Dockerfile ya está preparado para esto.
+La variable de entorno `FLASK_APP` debe ser `task_manager.app` porque el archivo principal ahora está en el subdirectorio `task_manager/`. El Dockerfile ya está preparado para esto.
 
 ---
