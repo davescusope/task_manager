@@ -218,4 +218,8 @@ Este proyecto es una aplicación en Python que permite gestionar tareas de maner
 >
 > Si tienes problemas de conexión SSL, asegúrate de que el archivo está presente y que la ruta es correcta. Consulta la documentación oficial de Azure Database for MySQL para más detalles sobre la configuración de SSL.
 
+## Nota sobre despliegue en Docker
+
+La variable de entorno `FLASK_APP` debe ser `app` (no `task_manager.app`) porque el archivo principal está en la raíz del proyecto. El Dockerfile ya está preparado para esto.
+
 ---

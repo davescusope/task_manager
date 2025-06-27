@@ -15,9 +15,9 @@ RUN pip install --upgrade pip \
 EXPOSE 5000
 
 # Variable de entorno para Flask
-ENV FLASK_APP=task_manager.app
+ENV FLASK_APP=app
 ENV FLASK_RUN_HOST=0.0.0.0
-ENV PYTHONPATH="${PYTHONPATH}:/app"
+ENV PYTHONPATH="/app"
 
 # Comando para lanzar la app
 CMD ["flask", "run"] 
