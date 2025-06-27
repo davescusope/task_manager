@@ -19,12 +19,12 @@ app.register_blueprint(user_story_bp)
 # Ruta para servir la interfaz web
 @app.route('/')
 def serve_ui():
-    return send_from_directory('ui', 'index.html')
+    return send_from_directory(os.path.abspath(os.path.join(os.path.dirname(__file__), '../ui')), 'index.html')
 
 # Ruta para servir archivos estáticos
 @app.route('/<path:path>')
 def serve_static(path):
-    return send_from_directory('ui', path)
+    return send_from_directory(os.path.abspath(os.path.join(os.path.dirname(__file__), '../ui')), path)
 
 # Configuración de la base de datos MySQL
 app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{connection.DB_USER}:{connection.DB_PASSWORD}@{connection.DB_HOST}:{connection.DB_PORT}/{connection.DB_NAME}?ssl_verify_cert=false"
