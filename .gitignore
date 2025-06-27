@@ -1,6 +1,7 @@
 .idea/
 venv/
 __pycache__/
+**/__pycache__/
 *.pyc
 *.pyo
 *.pyd
@@ -14,5 +15,5 @@ __pycache__/
 .vscode/
 # Archivos de sistema
 Thumbs.db
-connection/connection.txt
+**/connection.txt
 readmedocker.md 
