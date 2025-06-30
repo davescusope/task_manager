@@ -15,5 +15,5 @@ __pycache__/
 .vscode/
 # Archivos de sistema
 Thumbs.db
-**/connection.txt
+connection.txt
 readmedocker.md 
