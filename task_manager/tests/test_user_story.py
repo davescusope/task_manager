@@ -1,8 +1,19 @@
 import unittest
+import os
 from unittest.mock import patch, MagicMock
-from task_manager.app import app
-import json
 from datetime import datetime
+import json
+
+# Mock de variables de entorno para la base de datos y modo test
+os.environ['DB_USER'] = 'test'
+os.environ['DB_PASSWORD'] = 'test'
+os.environ['DB_HOST'] = 'localhost'
+os.environ['DB_PORT'] = '3306'
+os.environ['DB_NAME'] = 'test_db'
+os.environ['TESTING'] = '1'
+
+with patch('openai.AzureOpenAI', MagicMock()):
+    from task_manager.app import app
 
 class UserStoryEndpointsTestCase(unittest.TestCase):
     def setUp(self):

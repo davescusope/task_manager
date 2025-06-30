@@ -1,8 +1,19 @@
 import unittest
+import os
 from unittest.mock import patch, MagicMock
-from task_manager.app import app
-import json
 from datetime import datetime
+import json
+
+# Mock de variables de entorno para la base de datos y modo test
+os.environ['DB_USER'] = 'test'
+os.environ['DB_PASSWORD'] = 'test'
+os.environ['DB_HOST'] = 'localhost'
+os.environ['DB_PORT'] = '3306'
+os.environ['DB_NAME'] = 'test_db'
+os.environ['TESTING'] = '1'
+
+with patch('openai.AzureOpenAI', MagicMock()):
+    from task_manager.app import app
 
 class IAEndpointsTestCase(unittest.TestCase):
     def setUp(self):
@@ -35,7 +46,7 @@ class IAEndpointsTestCase(unittest.TestCase):
         mock_task_instance = self.mock_task()
         mock_query.get.return_value = mock_task_instance
         mock_llm.return_value = 'Descripción generada'
-        mock_taskIASchema = type('MockSchema', (), {'from_orm': lambda self, x: type('MockObj', (), {'dict': lambda self: {
+        mock_taskIASchema = type('MockSchema', (), {'from_orm': staticmethod(lambda x: type('MockObj', (), {'dict': lambda self: {
             'id': 1,
             'title': 'T',
             'description': 'Descripción generada',
@@ -45,7 +56,7 @@ class IAEndpointsTestCase(unittest.TestCase):
             'assigned_to': 'user',
             'user_story_id': None,
             'created_at': datetime.now()
-        }})()})
+        }})())})
         with patch('task_manager.models.schemas.TaskIASchema', mock_taskIASchema):
             data = {"task_id": 1}
             response = self.app.post('/ai/tasks/describe', data=json.dumps(data), content_type='application/json')
@@ -58,7 +69,7 @@ class IAEndpointsTestCase(unittest.TestCase):
         mock_task_instance = self.mock_task()
         mock_query.get.return_value = mock_task_instance
         mock_llm.return_value = 'Backend'
-        mock_taskIASchema = type('MockSchema', (), {'from_orm': lambda self, x: type('MockObj', (), {'dict': lambda self: {
+        mock_taskIASchema = type('MockSchema', (), {'from_orm': staticmethod(lambda x: type('MockObj', (), {'dict': lambda self: {
             'id': 1,
             'title': 'T',
             'description': 'D',
@@ -69,7 +80,7 @@ class IAEndpointsTestCase(unittest.TestCase):
             'user_story_id': None,
             'created_at': datetime.now(),
             'category': 'Backend'
-        }})()})
+        }})())})
         with patch('task_manager.models.schemas.TaskIASchema', mock_taskIASchema):
             data = {"task_id": 1}
             response = self.app.post('/ai/tasks/categorize', data=json.dumps(data), content_type='application/json')
@@ -83,7 +94,7 @@ class IAEndpointsTestCase(unittest.TestCase):
         mock_task_instance = self.mock_task()
         mock_query.get.return_value = mock_task_instance
         mock_llm.return_value = '5'
-        mock_taskIASchema = type('MockSchema', (), {'from_orm': lambda self, x: type('MockObj', (), {'dict': lambda self: {
+        mock_taskIASchema = type('MockSchema', (), {'from_orm': staticmethod(lambda x: type('MockObj', (), {'dict': lambda self: {
             'id': 1,
             'title': 'T',
             'description': 'D',
@@ -93,7 +104,7 @@ class IAEndpointsTestCase(unittest.TestCase):
             'assigned_to': 'user',
             'user_story_id': None,
             'created_at': datetime.now()
-        }})()})
+        }})())})
         with patch('task_manager.models.schemas.TaskIASchema', mock_taskIASchema):
             data = {"task_id": 1}
             response = self.app.post('/ai/tasks/estimate', data=json.dumps(data), content_type='application/json')
@@ -107,7 +118,7 @@ class IAEndpointsTestCase(unittest.TestCase):
         mock_task_instance = self.mock_task()
         mock_query.get.return_value = mock_task_instance
         mock_llm.return_value = 'Análisis de riesgos'
-        mock_taskIASchema = type('MockSchema', (), {'from_orm': lambda self, x: type('MockObj', (), {'dict': lambda self: {
+        mock_taskIASchema = type('MockSchema', (), {'from_orm': staticmethod(lambda x: type('MockObj', (), {'dict': lambda self: {
             'id': 1,
             'title': 'T',
             'description': 'D',
@@ -118,7 +129,7 @@ class IAEndpointsTestCase(unittest.TestCase):
             'user_story_id': None,
             'created_at': datetime.now(),
             'risk_analysis': 'Análisis de riesgos'
-        }})()})
+        }})())})
         with patch('task_manager.models.schemas.TaskIASchema', mock_taskIASchema):
             data = {"task_id": 1}
             response = self.app.post('/ai/tasks/audit', data=json.dumps(data), content_type='application/json')

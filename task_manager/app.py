@@ -1,9 +1,11 @@
+from dotenv import load_dotenv
+import os
+load_dotenv()
 from flask import Flask, send_from_directory
 from flask_cors import CORS
 from task_manager.routes.crud_routes import crud_bp
 from task_manager.routes.ia_routes import ia_bp
 from task_manager.routes.user_story_routes import user_story_bp
-import os
 from flask_sqlalchemy import SQLAlchemy
 from task_manager.connection import connection
 import pymysql
@@ -51,11 +53,12 @@ def create_database_if_not_exists():
     finally:
         conn.close()
 
-create_database_if_not_exists()
+if not os.environ.get("TESTING"):
+    create_database_if_not_exists()
 
-with app.app_context():
-    from task_manager.models import UserStory, Task
-    db.create_all()
+    with app.app_context():
+        from task_manager.models import UserStory, Task
+        db.create_all()
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
